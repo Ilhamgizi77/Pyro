@@ -59,6 +59,17 @@ local Window = Fluent:CreateWindow({
 	MinimizeKey = Enum.KeyCode.LeftControl -- Used when theres no MinimizeKeybind
 })
 
+local PYROLOGO = Instance.new("ImageLabel")
+PYROLOGO.Parent = Fluent.Parent
+PYROLOGO.Size = UDim2.fromOffset(75, 75)
+PYROLOGO.Position = UDim2.new(0.031, 0,0.225, 0)
+local textbut = Instance.new("TextButton")
+textbut.Parent = PYROLOGO
+textbut.Size = UDim2.new(1,0,1,0)
+textbut.MouseButton1Click:Connect(function()
+	Fluent.Visible = not Fluent.Visible
+end)
+
 --Fluent provides Lucide Icons https://lucide.dev/icons/ for the tabs, icons are optional
 local Tabs = {
 	LocalPlayer = Window:AddTab({ Title = "LocalPlayer", Icon = "align-justify" }),
@@ -165,7 +176,8 @@ do
 	})
 
 	Options.SpeedToggle:SetValue(false)
-
+	
+	
 end
 
 
@@ -205,3 +217,4 @@ Fluent:Notify({
 -- You can use the SaveManager:LoadAutoloadConfig() to load a config
 -- which has been marked to be one that auto loads!
 SaveManager:LoadAutoloadConfig()
+
