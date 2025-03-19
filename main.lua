@@ -1,3 +1,4 @@
+repeat wait() until game:IsLoaded() and game.Players.LocalPlayer
 local Fluent = loadstring(game:HttpGet("https://github.com/dawid-scripts/Fluent/releases/latest/download/main.lua"))()
 local SaveManager = loadstring(game:HttpGet("https://raw.githubusercontent.com/dawid-scripts/Fluent/master/Addons/SaveManager.lua"))()
 local InterfaceManager = loadstring(game:HttpGet("https://raw.githubusercontent.com/dawid-scripts/Fluent/master/Addons/InterfaceManager.lua"))()
@@ -5,7 +6,6 @@ local InfiniteJumpEnabled = false
 local JumpConnection = nil -- Variabel untuk menyimpan koneksi event
 local plr = game:GetService("Players").LocalPlayer
 local UserInputService = game:GetService("UserInputService")
-local CoreGui = game:FindFirstChild("CoreGui") or game:GetService("CoreGui")
 
 local function setSpeed(speed)
 	local player = game.Players.LocalPlayer
@@ -47,10 +47,15 @@ local function rj()
 		tpService:TeleportToPlaceInstance(placeId, jobId, player)
 	end
 end
-
+local function hopserver()
+	local serv = game["Teleport Service"]
+	if plr then
+		serv:TeleportToPlaceInstance(game.PlaceId, plr)
+	end
+end
 
 local Window = Fluent:CreateWindow({
-	Title = "Pyro Hub " .. Fluent.Version,
+	Title = "Pyro Hub   " .. Fluent.Version,
 	SubTitle = "by dzkkkr",
 	TabWidth = 160,
 	Size = UDim2.fromOffset(580, 460),
@@ -60,14 +65,14 @@ local Window = Fluent:CreateWindow({
 })
 
 local PYROLOGO = Instance.new("ImageLabel")
-PYROLOGO.Parent = Fluent.Parent
+PYROLOGO.Parent = plr.PlayerGui
 PYROLOGO.Size = UDim2.fromOffset(75, 75)
 PYROLOGO.Position = UDim2.new(0.031, 0,0.225, 0)
 local textbut = Instance.new("TextButton")
 textbut.Parent = PYROLOGO
 textbut.Size = UDim2.new(1,0,1,0)
 textbut.MouseButton1Click:Connect(function()
-	Fluent.Visible = not Fluent.Visible
+	Window.Visible = not Window.Visible
 end)
 
 --Fluent provides Lucide Icons https://lucide.dev/icons/ for the tabs, icons are optional
@@ -79,15 +84,6 @@ local Tabs = {
 local Options = Fluent.Options
 
 do
-	Fluent:Notify({
-		Title = "Notification",
-		Content = "This is a notification",
-		SubContent = "SubContent", -- Optional
-		Duration = 5 -- Set to nil to make the notification not disappear
-	})
-
-
-
 	Tabs.LocalPlayer:AddParagraph({
 		Title = "LocalPlayer",
 		Content = "You can change speed or smth else in this tab"
@@ -121,6 +117,33 @@ do
 			})
 		end
 	})
+	
+	Tabs.LocalPlayer:AddButton({
+		Title = "Hop Server",
+		Description = "Hop To Random Server",
+		Callback = function()
+			Window:Dialog({
+				Title = "Hop Server",
+				Content = "Are You Sure Want To Continue?",
+				Buttons = {
+					{
+						Title = "Confirm",
+						Callback = function()
+							print("Confirmed the dialog.")
+							wait()
+							hopserver()
+						end
+					},
+					{
+						Title = "Cancel",
+						Callback = function()
+							print("Cancelled the dialog.")
+						end
+					}
+				}
+			})
+		end
+	})
 
 	local Toggle = Tabs.LocalPlayer:AddToggle("MyToggle", {Title = "Infinite Jump", Default = false })
 
@@ -135,6 +158,8 @@ do
 	end)
 
 	Options.MyToggle:SetValue(false)
+	
+
 
 	local function setSpeed(speed)
 		local player = game.Players.LocalPlayer
