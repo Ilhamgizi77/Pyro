@@ -125,36 +125,47 @@ do
 
 	Options.MyToggle:SetValue(false)
 
-	local Input = Tabs.LocalPlayer:AddInput("Input", {
+	local function setSpeed(speed)
+		local player = game.Players.LocalPlayer
+		if player and player.Character and player.Character:FindFirstChild("Humanoid") then
+			player.Character.Humanoid.WalkSpeed = speed
+			print("Speed changed to:", speed)
+		else
+			warn("Player or Humanoid not found!")
+		end
+	end
+
+	-- Input Box untuk memasukkan angka kecepatan
+	local Input = Tabs.LocalPlayer:AddInput("SpeedInput", {
 		Title = "Speed Changer",
-		Default = false,
+		Default = "16",
 		Placeholder = "Enter Speed",
-		Numeric = true, -- Hanya menerima angka
-		Finished = true, -- Hanya trigger setelah tekan Enter
+		Numeric = true,
+		Finished = true,
 		Callback = function(Value)
-			local speed = tonumber(Value)
-			if speed then
+			if Options.SpeedToggle.Value then
+				local speed = tonumber(Value) or 16
 				setSpeed(speed)
-			else
-				warn("Invalid speed input!")
 			end
 		end
 	})
 
 	-- Toggle untuk mengaktifkan/mematikan speed changer
-	local Toggle = Tabs.LocalPlayer:AddToggle("MyToggle", {
+	local Toggle = Tabs.LocalPlayer:AddToggle("SpeedToggle", {
 		Title = "Change Speed",
 		Default = false,
 		Callback = function(state)
 			if state then
-				local speed = tonumber(Input.Value) or 16 -- Ambil input atau pakai default 16
+				local speed = tonumber(Options.SpeedInput.Value) or 16
 				setSpeed(speed)
 			else
-				setSpeed(16) -- Reset kecepatan ke default
+				setSpeed(16) -- Reset ke default speed
 			end
 		end
 	})
-	
+
+	Options.SpeedToggle:SetValue(false)
+
 end
 
 
