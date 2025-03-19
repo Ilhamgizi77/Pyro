@@ -84,7 +84,7 @@ do
 						Title = "Confirm",
 						Callback = function()
 							print("Confirmed the dialog.")
-							wait(5)
+							wait() -- Tidak perlu menunggu 5 detik, cukup 1 detik
 							rj()
 						end
 					},
@@ -98,8 +98,6 @@ do
 			})
 		end
 	})
-
-
 
 	local Toggle = Tabs.Main:AddToggle("MyToggle", {Title = "Infinite Jump", Default = false })
 
