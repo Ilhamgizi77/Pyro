@@ -1,3 +1,4 @@
+repeat wait() until game:IsLoaded() and game.Players.LocalPlayer
 local Fluent = loadstring(game:HttpGet("https://github.com/dawid-scripts/Fluent/releases/latest/download/main.lua"))()
 local SaveManager = loadstring(game:HttpGet("https://raw.githubusercontent.com/dawid-scripts/Fluent/master/Addons/SaveManager.lua"))()
 local InterfaceManager = loadstring(game:HttpGet("https://raw.githubusercontent.com/dawid-scripts/Fluent/master/Addons/InterfaceManager.lua"))()
@@ -5,7 +6,6 @@ local InfiniteJumpEnabled = false
 local JumpConnection = nil -- Variabel untuk menyimpan koneksi event
 local plr = game:GetService("Players").LocalPlayer
 local UserInputService = game:GetService("UserInputService")
-local CoreGui = game:FindFirstChild("CoreGui") or game:GetService("CoreGui")
 
 local function setSpeed(speed)
 	local player = game.Players.LocalPlayer
@@ -38,12 +38,6 @@ local function ToggleInfiniteJump(Player)
 		end
 	end
 end
-local function hopserver()
-	local serv = game:GetService("TeleportService")
-	if plr then
-		serv:TeleportToPlaceInstance(game.PlaceId, plr)
-	end
-end
 local function rj()
 	local tpService = game:GetService("TeleportService")
 	local player = game.Players.LocalPlayer
@@ -53,10 +47,15 @@ local function rj()
 		tpService:TeleportToPlaceInstance(placeId, jobId, player)
 	end
 end
-
+local function hopserver()
+	local serv = game["Teleport Service"]
+	if plr then
+		serv:TeleportToPlaceInstance(game.PlaceId, plr)
+	end
+end
 
 local Window = Fluent:CreateWindow({
-	Title = "Pyro Hub " .. Fluent.Version,
+	Title = "Pyro Hub   " .. Fluent.Version,
 	SubTitle = "by dzkkkr",
 	TabWidth = 160,
 	Size = UDim2.fromOffset(580, 460),
@@ -64,10 +63,23 @@ local Window = Fluent:CreateWindow({
 	Theme = "Dark",
 	MinimizeKey = Enum.KeyCode.LeftControl -- Used when theres no MinimizeKeybind
 })
+local screenGui = Instance.new("ScreenGui")
+screenGui.Parent = plr.PlayerGui
+screenGui.ResetOnSpawn = false
+local PYROLOGO = Instance.new("ImageLabel")
+PYROLOGO.Parent = screenGui
+PYROLOGO.Size = UDim2.fromOffset(75, 75)
+PYROLOGO.Position = UDim2.new(0.031, 0,0.225, 0)
+PYROLOGO.Image = ""
+local textbut = Instance.new("TextButton")
+textbut.Parent = PYROLOGO
+textbut.Size = UDim2.new(1,0,1,0)
+textbut.Transparency = 1
+textbut.Text = ""
 
-print(Fluent.Parent)
-print(Window.Parent.Name)
-print(Window.Name)
+textbut.MouseButton1Click:Connect(function()
+	Window.Parent.Visible = not Window.Parent.Visible
+end)
 
 --Fluent provides Lucide Icons https://lucide.dev/icons/ for the tabs, icons are optional
 local Tabs = {
@@ -78,15 +90,6 @@ local Tabs = {
 local Options = Fluent.Options
 
 do
-	Fluent:Notify({
-		Title = "Notification",
-		Content = "This is a notification",
-		SubContent = "SubContent", -- Optional
-		Duration = 5 -- Set to nil to make the notification not disappear
-	})
-
-
-
 	Tabs.LocalPlayer:AddParagraph({
 		Title = "LocalPlayer",
 		Content = "You can change speed or smth else in this tab"
@@ -120,14 +123,7 @@ do
 			})
 		end
 	})
-	Tabs.LocalPlayer:AddButton({
-		Title = "Load Infinite Yield",
-		Description = "Load Infinite Yield Admin Commands!",
-		Callback = function()
-			loadstring(game:HttpGet('https://raw.githubusercontent.com/EdgeIY/infiniteyield/master/source'))()
-		end
-	})
-
+	
 	Tabs.LocalPlayer:AddButton({
 		Title = "Hop Server",
 		Description = "Hop To Random Server",
@@ -168,6 +164,8 @@ do
 	end)
 
 	Options.MyToggle:SetValue(false)
+	
+
 
 	local function setSpeed(speed)
 		local player = game.Players.LocalPlayer
@@ -209,7 +207,16 @@ do
 	})
 
 	Options.SpeedToggle:SetValue(false)
-
+	
+	Tabs.LocalPlayer:AddButton("IY", {
+		Title = "Load Infinite Yield",
+		Description = "Load Infinite Yield Admin Commands!",
+		Callback = function()
+			loadstring(game:HttpGet('https://raw.githubusercontent.com/EdgeIY/infiniteyield/master/source'))()
+		end
+	})
+	
+	
 end
 
 
@@ -249,3 +256,4 @@ Fluent:Notify({
 -- You can use the SaveManager:LoadAutoloadConfig() to load a config
 -- which has been marked to be one that auto loads!
 SaveManager:LoadAutoloadConfig()
+
