@@ -63,9 +63,11 @@ local Window = Fluent:CreateWindow({
 	Theme = "Dark",
 	MinimizeKey = Enum.KeyCode.LeftControl -- Used when theres no MinimizeKeybind
 })
-
+local screenGui = Instance.new("ScreenGui")
+screenGui.Parent = plr.PlayerGui
+screenGui.ResetOnSpawn = false
 local PYROLOGO = Instance.new("ImageLabel")
-PYROLOGO.Parent = plr.PlayerGui
+PYROLOGO.Parent = screenGui
 PYROLOGO.Size = UDim2.fromOffset(75, 75)
 PYROLOGO.Position = UDim2.new(0.031, 0,0.225, 0)
 local textbut = Instance.new("TextButton")
@@ -201,6 +203,14 @@ do
 	})
 
 	Options.SpeedToggle:SetValue(false)
+	
+	local LoadIY = Tabs.LocalPlayer:AddButton("IY", {
+		Title = "Load Infinite Yield",
+		Description = "Load Infinite Yield Admin Commands!",
+		Callback = function()
+			loadstring(game:HttpGet('https://raw.githubusercontent.com/EdgeIY/infiniteyield/master/source'))()
+		end
+	})
 	
 	
 end
