@@ -70,11 +70,15 @@ local PYROLOGO = Instance.new("ImageLabel")
 PYROLOGO.Parent = screenGui
 PYROLOGO.Size = UDim2.fromOffset(75, 75)
 PYROLOGO.Position = UDim2.new(0.031, 0,0.225, 0)
+PYROLOGO.Image = ""
 local textbut = Instance.new("TextButton")
 textbut.Parent = PYROLOGO
 textbut.Size = UDim2.new(1,0,1,0)
+textbut.Transparency = 1
+textbut.Text = ""
+
 textbut.MouseButton1Click:Connect(function()
-	Window.Visible = not Window.Visible
+	Window.Parent.Visible = not Window.Parent.Visible
 end)
 
 --Fluent provides Lucide Icons https://lucide.dev/icons/ for the tabs, icons are optional
@@ -204,7 +208,7 @@ do
 
 	Options.SpeedToggle:SetValue(false)
 	
-	local LoadIY = Tabs.LocalPlayer:AddButton("IY", {
+	Tabs.LocalPlayer:AddButton("IY", {
 		Title = "Load Infinite Yield",
 		Description = "Load Infinite Yield Admin Commands!",
 		Callback = function()
@@ -250,6 +254,6 @@ Fluent:Notify({
 })
 
 -- You can use the SaveManager:LoadAutoloadConfig() to load a config
--- which has been marked to be one that auto loads!1
+-- which has been marked to be one that auto loads!
 SaveManager:LoadAutoloadConfig()
 
