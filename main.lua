@@ -63,8 +63,12 @@ end
 local screenGui = Instance.new("ScreenGui")
 screenGui.Parent = plr.PlayerGui
 screenGui.ResetOnSpawn = false
+local frame = Instance.new("Frame")
+frame.Parent = screenGui
 local but = Instance.new("TextButton")
-but.Parent = screenGui
+but.Text = ""
+but.Parent = frame
+but.Size = UDim2.fromScale(1, 1)
 but.MouseButton1Click:Connect(pressLeftCtrl)
 
 
@@ -82,7 +86,7 @@ local Window = Fluent:CreateWindow({
 --Fluent provides Lucide Icons https://lucide.dev/icons/ for the tabs, icons are optional
 local Tabs = {
 	LocalPlayer = Window:AddTab({ Title = "LocalPlayer", Icon = "align-justify" }),
-	Main = Window:AddTab({ Title = "Main", Icon = "grip" }),
+	Main = Window:AddTab({ Title = "Main", Icon = "house" }),
 	Settings = Window:AddTab({ Title = "Settings", Icon = "settings" })
 }
 
@@ -221,6 +225,7 @@ do
 			end
 		end
 	})
+	
 
 	-- Toggle untuk mengaktifkan/mematikan speed changer
 	local Toggle = Tabs.LocalPlayer:AddToggle("SpeedToggle", {
@@ -237,34 +242,6 @@ do
 	})
 
 	Options.SpeedToggle:SetValue(false)
-	
-	Tabs.Main:AddParagraph({
-		Title = "Main",
-		Content = "Blue Lock Rivals"
-	})
-	
-	local Button = Tabs.Main:AddToggle("Infinite Stamina", {
-		Title = "Infinite Stamina",
-		Default = false,
-		Callback = function()
-			print("P")
-		end
-	})
-	
-	
-	
-	local Slider = Tabs.Main:AddSlider("Slider", 
-		{
-			Title = "Slider",
-			Description = "This is a slider",
-			Default = 2,
-			Min = 0,
-			Max = 5,
-			Rounding = 1,
-			Callback = function(Value)
-				print("Slider was changed:", Value)
-			end
-		})
 	
 
 end
