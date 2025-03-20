@@ -6,6 +6,13 @@ local JumpConnection = nil -- Variabel untuk menyimpan koneksi event
 local plr = game:GetService("Players").LocalPlayer
 local UserInputService = game:GetService("UserInputService")
 local CoreGui = game:FindFirstChild("CoreGui") or game:GetService("CoreGui")
+local VirtualInputManager = game:GetService("VirtualInputManager")
+
+local function pressLeftCtrl()
+	VirtualInputManager:SendKeyEvent(true, Enum.KeyCode.LeftControl, false, game)
+	task.wait(0.1)
+	VirtualInputManager:SendKeyEvent(false, Enum.KeyCode.LeftControl, false, game)
+end
 
 local function setSpeed(speed)
 	local player = game.Players.LocalPlayer
@@ -53,6 +60,11 @@ local function rj()
 		tpService:TeleportToPlaceInstance(placeId, jobId, player)
 	end
 end
+local screenGui = Instance.new("ScreenGui")
+screenGui.Parent = plr.PlayerGui
+screenGui.ResetOnSpawn = false
+local but = Instance.new("TextButton")
+but.MouseButton1Click:Connect(pressLeftCtrl)
 
 
 local Window = Fluent:CreateWindow({
@@ -69,6 +81,7 @@ local Window = Fluent:CreateWindow({
 --Fluent provides Lucide Icons https://lucide.dev/icons/ for the tabs, icons are optional
 local Tabs = {
 	LocalPlayer = Window:AddTab({ Title = "LocalPlayer", Icon = "align-justify" }),
+	Main = Window:AddTab({ Title = "Main", Icon = "grip" }),
 	Settings = Window:AddTab({ Title = "Settings", Icon = "settings" })
 }
 
@@ -77,8 +90,7 @@ local Options = Fluent.Options
 do
 	Fluent:Notify({
 		Title = "Notification",
-		Content = "This is a notification",
-		SubContent = "SubContent", -- Optional
+		Content = "Thanks For trying this script!",
 		Duration = 5 -- Set to nil to make the notification not disappear
 	})
 
@@ -121,7 +133,25 @@ do
 		Title = "Load Infinite Yield",
 		Description = "Load Infinite Yield Admin Commands!",
 		Callback = function()
-			loadstring(game:HttpGet('https://raw.githubusercontent.com/EdgeIY/infiniteyield/master/source'))()
+			Window:Dialog({
+				Title = "Load IY",
+				Content = "Load The Infinite Yield",
+				Buttons = {
+					{
+						Title = "Confirm",
+						Callback = function()
+							loadstring(game:HttpGet('https://raw.githubusercontent.com/EdgeIY/infiniteyield/master/source'))()
+						end
+					},
+					{
+						Title = "Cancel",
+						Callback = function()
+							return print("Cancelled the dialog.")
+						end
+					}
+				}
+			})
+			
 		end
 	})
 
@@ -206,6 +236,35 @@ do
 	})
 
 	Options.SpeedToggle:SetValue(false)
+	
+	Tabs.Main:AddParagraph({
+		Title = "Main",
+		Content = "Blue Lock Rivals"
+	})
+	
+	local Button = Tabs.Main:AddToggle("Infinite Stamina", {
+		Title = "Infinite Stamina",
+		Default = false,
+		Callback = function()
+			print("P")
+		end
+	})
+	
+	
+	
+	local Slider = Tabs.Main:AddSlider("Slider", 
+		{
+			Title = "Slider",
+			Description = "This is a slider",
+			Default = 2,
+			Min = 0,
+			Max = 5,
+			Rounding = 1,
+			Callback = function(Value)
+				print("Slider was changed:", Value)
+			end
+		})
+	
 
 end
 
