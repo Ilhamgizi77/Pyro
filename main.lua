@@ -179,11 +179,14 @@ do
 	})
 
 	local Dropdown = Tabs.LocalPlayer:AddDropdown("Dropdown", {
-		Title = "Dropdown",
-		Description = "Dropdown description",
-		Values = {"one", "two", "three", "four", "five", "six", "seven", "eight", "nine", "ten", "eleven", "twelve", "thirteen", "fourteen"},
+		Title = "Teleport to...",
+		Description = "Select a location to teleport",
+		Values = table.keys(teleportLocations), -- Menggunakan nama lokasi sebagai opsi dropdown
 		Multi = false,
 		Default = 1,
+		Callback = function(selected)
+			teleportToLocation(selected) -- Panggil fungsi teleportasi
+		end
 	})
 
 	Tabs.LocalPlayer:AddButton({
