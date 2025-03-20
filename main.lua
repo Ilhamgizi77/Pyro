@@ -3,48 +3,7 @@ screenGui.Parent = game.Players.LocalPlayer.PlayerGui
 local but = Instance.new("ImageButton")
 but.Parent = screenGui
 but.Size = UDim2.fromOffset(100, 100)
-but.MouseButton1Click:Connect(pressLeftCtrl)
-local UIS = game:GetService("UserInputService")
-local dragging
-local dragInput
-local dragStart
-local startPos
-
-local frame =but-- Ganti ini dengan objek UI yang mau di-drag
-
-local function update(input)
-	local delta = input.Position - dragStart
-	frame.Position = UDim2.new(
-		startPos.X.Scale, startPos.X.Offset + delta.X,
-		startPos.Y.Scale, startPos.Y.Offset + delta.Y
-	)
-end
-
-frame.InputBegan:Connect(function(input)
-	if input.UserInputType == Enum.UserInputType.MouseButton1 or input.UserInputType == Enum.UserInputType.Touch then
-		dragging = true
-		dragStart = input.Position
-		startPos = frame.Position
-
-		input.Changed:Connect(function()
-			if input.UserInputState == Enum.UserInputState.End then
-				dragging = false
-			end
-		end)
-	end
-end)
-
-frame.InputChanged:Connect(function(input)
-	if input.UserInputType == Enum.UserInputType.MouseMovement or input.UserInputType == Enum.UserInputType.Touch then
-		dragInput = input
-	end
-end)
-
-UIS.InputChanged:Connect(function(input)
-	if input == dragInput and dragging then
-		update(input)
-	end
-end)
+but.MouseButton1Click:Connect(triggerLeftCtrl)
 local Fluent = loadstring(game:HttpGet("https://github.com/dawid-scripts/Fluent/releases/latest/download/main.lua"))()
 local SaveManager = loadstring(game:HttpGet("https://raw.githubusercontent.com/dawid-scripts/Fluent/master/Addons/SaveManager.lua"))()
 local InterfaceManager = loadstring(game:HttpGet("https://raw.githubusercontent.com/dawid-scripts/Fluent/master/Addons/InterfaceManager.lua"))()
@@ -104,7 +63,24 @@ local function setSpeed(speed)
 		warn("Player or Humanoid not found!")
 	end
 end
+local SGUI = Instance.new("ScreenGui")
+SGUI.Parent = plr.PlayerGui
+local but = Instance.new("TextButton")
+but.Parent = SGUI
+local UserInputService = game:GetService("UserInputService")
+local button = but
+-- Pastikan script ini berada di dalam TextButton atau ImageButton
 
+-- Fungsi untuk meniru Left Ctrl
+function triggerLeftCtrl()
+	-- Memicu event seolah Left Ctrl ditekan
+	for _, connection in pairs(UserInputService.InputBegan:GetConnections()) do
+		connection:Fire(Enum.UserInputType.Keyboard, Enum.KeyCode.LeftControl, false)
+	end
+end
+
+-- Hubungkan ke tombol UI
+button.MouseButton1Click:Connect(triggerLeftCtrl)
 
 local function ToggleInfiniteJump(Player)
 	InfiniteJumpEnabled = not InfiniteJumpEnabled
