@@ -64,6 +64,7 @@ local screenGui = Instance.new("ScreenGui")
 screenGui.Parent = plr.PlayerGui
 screenGui.ResetOnSpawn = false
 local but = Instance.new("TextButton")
+but.Parent = screenGui
 but.MouseButton1Click:Connect(pressLeftCtrl)
 
 
