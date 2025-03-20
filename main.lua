@@ -52,6 +52,28 @@ local function teleportToLocation(locationName)
 	end
 end
 
+local G2L = {}
+-- StarterGui.DeltaKeyboard.Main.Background.LeftControl
+G2L["a2"] = Instance.new("TextButton", G2L["4"]);
+G2L["a2"]["Parent"] = plr.PlayerGui
+G2L["a2"]["TextWrapped"] = true;
+G2L["a2"]["BackgroundColor3"] = Color3.fromRGB(8, 8, 8);
+G2L["a2"]["TextSize"] = 23;
+G2L["a2"]["FontFace"] = Font.new([[rbxasset://fonts/families/SourceSansPro.json]], Enum.FontWeight.Regular, Enum.FontStyle.Normal);
+G2L["a2"]["TextColor3"] = Color3.fromRGB(255, 255, 255);
+G2L["a2"]["Size"] = UDim2.new(0, 57, 0, 25);
+G2L["a2"]["Name"] = [[LeftControl]];
+G2L["a2"]["Text"] = [[Ctrl]];
+G2L["a2"]["Position"] = UDim2.new(0, 7, 0, 160);
+
+-- StarterGui.DeltaKeyboard.Main.Background.LeftControl.UIStroke
+G2L["a3"] = Instance.new("UIStroke", G2L["a2"]);
+G2L["a3"]["Color"] = Color3.fromRGB(255, 255, 255);
+G2L["a3"]["ApplyStrokeMode"] = Enum.ApplyStrokeMode.Border;
+
+-- StarterGui.DeltaKeyboard.Main.Background.LeftControl.UICorner
+G2L["a4"] = Instance.new("UICorner", G2L["a2"]);
+G2L["a4"]["CornerRadius"] = UDim.new(0, 5);
 
 
 local function setSpeed(speed)
