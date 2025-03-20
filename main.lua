@@ -143,6 +143,10 @@ local function rj()
 	end
 end
 
+local locationNames = {}
+for name, _ in pairs(teleportLocations) do
+	table.insert(locationNames, name)
+end
 
 local Window = Fluent:CreateWindow({
 	Title = "Pyro Hub " .. Fluent.Version,
@@ -181,7 +185,7 @@ do
 	local Dropdown = Tabs.LocalPlayer:AddDropdown("Dropdown", {
 		Title = "Teleport to...",
 		Description = "Select a location to teleport",
-		Values = table.keys(teleportLocations), -- Menggunakan nama lokasi sebagai opsi dropdown
+		Values = locationNames, -- Menggunakan nama lokasi sebagai opsi dropdown
 		Multi = false,
 		Default = 1,
 		Callback = function(selected)
