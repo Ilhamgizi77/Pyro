@@ -53,13 +53,46 @@ local JumpConnection = nil -- Variabel untuk menyimpan koneksi event
 local plr = game.Players.LocalPlayer
 local UserInputService = game:GetService("UserInputService")
 local CoreGui = game:FindFirstChild("CoreGui") or game:GetService("CoreGui")
-local VirtualInputManager = game:GetService("VirtualInputManager")
-
+local teleportLocations = {
+	Moosewod = Vector3.new(391, 135, 249),
+	Roslit = Vector3.new(-1470, 133, 700),
+	Forsaken = Vector3.new(-2483, 133, 1562),
+	GrandReef = Vector3.new(-3576, 151, 522),
+	["Atlantean Storm"] = Vector3.new(-3642, 131, 773),
+	Spike = Vector3.new(-1281, 140, 1526),
+	Therapin = Vector3.new(-175, 143, 1924),
+	Ancient = Vector3.new(6058, 196, 303),
+	Mushgrove = Vector3.new(2498, 134, -773),
+	Arch = Vector3.new(1007, 135, -1254),
+	Enchant = Vector3.new(1310, -802, -83),
+	Atlantis = Vector3.new(-4259, -603, 1813),
+	["Zeus Room"] = Vector3.new(-4309, -619, 2674),
+	["Kraken Pool"] = Vector3.new(-4396, -995, 2046),
+	["Poseidon Trial"] = Vector3.new(-3832, -545, 1025),
+	["Poseidon Room"] = Vector3.new(-4033, -558, 907),
+	["Ethereal Abyss Room"] = Vector3.new(-3798, -564, 1838),
+	Snowcap = Vector3.new(2625, 143, 2466),
+	["Snowcap Upper"] = Vector3.new(2815, 280, 2558),
+	["Snowcap Cave"] = Vector3.new(2806, 136, 2732),
+	["Sunken Pool"] = Vector3.new(-4996, -581, 1847),
+	["Sunken Trial"] = Vector3.new(-4625, -598, 1844),
+	["Kraken Door"] = Vector3.new(-4389, -984, 1808),
+	["Podium 1"] = Vector3.new(-3405, -2263, 3825),
+	["Podium 2"] = Vector3.new(-768, -3283, -688),
+	["Podium 3"] = Vector3.new(-13538, -11050, 129)
+}
 function pressLeftCtrl()
-	VirtualInputManager:SendKeyEvent(true, Enum.KeyCode.LeftControl, false, game)
-	task.wait(0.1)
-	VirtualInputManager:SendKeyEvent(false, Enum.KeyCode.LeftControl, false, game)
+	UserInputService.InputBegan:Fire(Enum.KeyCode.LeftControl, false)
 end
+local function teleportToLocation(locationName)
+	if plr and plr.Character then
+		local hrp = plr.Character:FindFirstChild("HumanoidRootPart")
+		if hrp and teleportLocations[locationName] then
+			hrp.CFrame = CFrame.new(teleportLocations[locationName])
+		end
+	end
+end
+
 
 
 local function setSpeed(speed)
@@ -201,7 +234,7 @@ do
 					}
 				}
 			})
-			
+
 		end
 	})
 
@@ -270,7 +303,7 @@ do
 			end
 		end
 	})
-	
+
 
 	-- Toggle untuk mengaktifkan/mematikan speed changer
 	local Toggle = Tabs.LocalPlayer:AddToggle("SpeedToggle", {
@@ -287,7 +320,20 @@ do
 	})
 
 	Options.SpeedToggle:SetValue(false)
-	
+	Tabs.Main:AddParagraph({
+		Title = "Main",
+		Content = "Fisch"
+	})
+	local Dropdown = Tabs.Main:AddDropdown("Dropdown", {
+		Title = "Teleport to...",
+		Description = "Select a location to teleport",
+		Values = table.keys(teleportLocations), -- Menggunakan nama lokasi sebagai opsi dropdown
+		Multi = false,
+		Default = 1,
+		Callback = function(selected)
+			teleportToLocation(selected) -- Panggil fungsi teleportasi
+		end
+	})
 
 end
 
