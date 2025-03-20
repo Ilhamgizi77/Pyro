@@ -320,20 +320,6 @@ do
 	})
 
 	Options.SpeedToggle:SetValue(false)
-	Tabs.Main:AddParagraph({
-		Title = "Main",
-		Content = "Fisch"
-	})
-	local Dropdown = Tabs.Main:AddDropdown("Dropdown", {
-		Title = "Teleport to...",
-		Description = "Select a location to teleport",
-		Values = table.keys(teleportLocations), -- Menggunakan nama lokasi sebagai opsi dropdown
-		Multi = false,
-		Default = 1,
-		Callback = function(selected)
-			teleportToLocation(selected) -- Panggil fungsi teleportasi
-		end
-	})
 
 end
 
