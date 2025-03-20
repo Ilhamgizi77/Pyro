@@ -182,16 +182,6 @@ do
 		Content = "You can change speed or smth else in this tab"
 	})
 
-	local Dropdown = Tabs.LocalPlayer:AddDropdown("Dropdown", {
-		Title = "Teleport to...",
-		Description = "Select a location to teleport",
-		Values = locationNames, -- Menggunakan nama lokasi sebagai opsi dropdown
-		Multi = false,
-		Default = 1,
-		Callback = function(selected)
-			teleportToLocation(selected) -- Panggil fungsi teleportasi
-		end
-	})
 
 	Tabs.LocalPlayer:AddButton({
 		Title = "Rejoin",
@@ -327,6 +317,23 @@ do
 	})
 
 	Options.SpeedToggle:SetValue(false)
+	
+	Tabs.Main:AddParagraph({
+		Title = "Fisch",
+		Content = "For Fisch Game, can tp and new feature is coming soon!"
+	})
+	
+	local Dropdown = Tabs.Main:AddDropdown("Dropdown", {
+		Title = "Teleport to...",
+		Description = "Select a location to teleport",
+		Values = locationNames, -- Menggunakan nama lokasi sebagai opsi dropdown
+		Multi = false,
+		Default = 1,
+		Callback = function(selected)
+			teleportToLocation(selected) -- Panggil fungsi teleportasi
+		end
+	})
+	
 
 end
 
