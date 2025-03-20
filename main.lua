@@ -1,18 +1,66 @@
+local screenGui = Instance.new("ScreenGui")
+screenGui.Parent = game.Players.LocalPlayer.PlayerGui
+local but = Instance.new("ImageButton")
+but.Parent = screenGui
+but.Size = UDim2.fromOffset(100, 100)
+but.MouseButton1Click:Connect(pressLeftCtrl)
+local UIS = game:GetService("UserInputService")
+local dragging
+local dragInput
+local dragStart
+local startPos
+
+local frame =but-- Ganti ini dengan objek UI yang mau di-drag
+
+local function update(input)
+	local delta = input.Position - dragStart
+	frame.Position = UDim2.new(
+		startPos.X.Scale, startPos.X.Offset + delta.X,
+		startPos.Y.Scale, startPos.Y.Offset + delta.Y
+	)
+end
+
+frame.InputBegan:Connect(function(input)
+	if input.UserInputType == Enum.UserInputType.MouseButton1 or input.UserInputType == Enum.UserInputType.Touch then
+		dragging = true
+		dragStart = input.Position
+		startPos = frame.Position
+
+		input.Changed:Connect(function()
+			if input.UserInputState == Enum.UserInputState.End then
+				dragging = false
+			end
+		end)
+	end
+end)
+
+frame.InputChanged:Connect(function(input)
+	if input.UserInputType == Enum.UserInputType.MouseMovement or input.UserInputType == Enum.UserInputType.Touch then
+		dragInput = input
+	end
+end)
+
+UIS.InputChanged:Connect(function(input)
+	if input == dragInput and dragging then
+		update(input)
+	end
+end)
 local Fluent = loadstring(game:HttpGet("https://github.com/dawid-scripts/Fluent/releases/latest/download/main.lua"))()
 local SaveManager = loadstring(game:HttpGet("https://raw.githubusercontent.com/dawid-scripts/Fluent/master/Addons/SaveManager.lua"))()
 local InterfaceManager = loadstring(game:HttpGet("https://raw.githubusercontent.com/dawid-scripts/Fluent/master/Addons/InterfaceManager.lua"))()
 local InfiniteJumpEnabled = false
 local JumpConnection = nil -- Variabel untuk menyimpan koneksi event
-local plr = game:GetService("Players").LocalPlayer
+local plr = game.Players.LocalPlayer
 local UserInputService = game:GetService("UserInputService")
 local CoreGui = game:FindFirstChild("CoreGui") or game:GetService("CoreGui")
 local VirtualInputManager = game:GetService("VirtualInputManager")
 
-local function pressLeftCtrl()
+function pressLeftCtrl()
 	VirtualInputManager:SendKeyEvent(true, Enum.KeyCode.LeftControl, false, game)
 	task.wait(0.1)
 	VirtualInputManager:SendKeyEvent(false, Enum.KeyCode.LeftControl, false, game)
 end
+
 
 local function setSpeed(speed)
 	local player = game.Players.LocalPlayer
@@ -23,6 +71,7 @@ local function setSpeed(speed)
 		warn("Player or Humanoid not found!")
 	end
 end
+
 
 local function ToggleInfiniteJump(Player)
 	InfiniteJumpEnabled = not InfiniteJumpEnabled
@@ -60,16 +109,6 @@ local function rj()
 		tpService:TeleportToPlaceInstance(placeId, jobId, player)
 	end
 end
-local screenGui = Instance.new("ScreenGui")
-screenGui.Parent = plr.PlayerGui
-screenGui.ResetOnSpawn = false
-local frame = Instance.new("Frame")
-frame.Parent = screenGui
-local but = Instance.new("TextButton")
-but.Text = ""
-but.Parent = frame
-but.Size = UDim2.fromScale(1, 1)
-but.MouseButton1Click:Connect(pressLeftCtrl)
 
 
 local Window = Fluent:CreateWindow({
@@ -106,7 +145,13 @@ do
 		Content = "You can change speed or smth else in this tab"
 	})
 
-
+	local Dropdown = Tabs.LocalPlayer:AddDropdown("Dropdown", {
+		Title = "Dropdown",
+		Description = "Dropdown description",
+		Values = {"one", "two", "three", "four", "five", "six", "seven", "eight", "nine", "ten", "eleven", "twelve", "thirteen", "fourteen"},
+		Multi = false,
+		Default = 1,
+	})
 
 	Tabs.LocalPlayer:AddButton({
 		Title = "Rejoin",
